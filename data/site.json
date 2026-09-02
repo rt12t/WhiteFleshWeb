@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "backgroundColor": "#f2c3d8",
+  "gap": 0.06,
+  "strips": [
+    {
+      "id": "strip-flesh-torso",
+      "src": "media/bg/flesh-torso.png",
+      "intrinsicWidth": 1920,
+      "intrinsicHeight": 1080
+    },
+    {
+      "id": "strip-pink-pipes",
+      "src": "media/bg/pink-pipes.png",
+      "intrinsicWidth": 1932,
+      "intrinsicHeight": 1092
+    },
+    {
+      "id": "strip-heart-figure",
+      "src": "media/bg/heart-figure.gif",
+      "intrinsicWidth": 1600,
+      "intrinsicHeight": 899
+    },
+    {
+      "id": "strip-headless",
+      "src": "media/bg/headless.gif",
+      "intrinsicWidth": 1653,
+      "intrinsicHeight": 925
+    },
+    {
+      "id": "strip-brain-figure",
+      "src": "media/bg/brain-figure.gif",
+      "intrinsicWidth": 2069,
+      "intrinsicHeight": 1165
+    }
+  ],
+  "stickers": [
+    {
+      "id": "sticker-spine-walker",
+      "src": "media/sticker/spine-walker.gif",
+      "x": 0.08,
+      "y": 0.35,
+      "width": 0.18,
+      "z": 1,
+      "intrinsicWidth": 648,
+      "intrinsicHeight": 659
+    },
+    {
+      "id": "sticker-crawl",
+      "src": "media/sticker/crawl.gif",
+      "x": 0.74,
+      "y": 0.58,
+      "width": 0.18,
+      "z": 2,
+      "intrinsicWidth": 574,
+      "intrinsicHeight": 470
+    },
+    {
+      "id": "sticker-walk",
+      "src": "media/sticker/walk.gif",
+      "x": 0.04,
+      "y": 1.02,
+      "width": 0.16,
+      "z": 3,
+      "intrinsicWidth": 493,
+      "intrinsicHeight": 581
+    },
+    {
+      "id": "sticker-flying-eye",
+      "src": "media/sticker/flying-eye.gif",
+      "x": 0.78,
+      "y": 1.22,
+      "width": 0.14,
+      "z": 4,
+      "intrinsicWidth": 318,
+      "intrinsicHeight": 226
+    },
+    {
+      "id": "sticker-sun",
+      "src": "media/sticker/sun.gif",
+      "x": 0.84,
+      "y": 0.02,
+      "width": 0.12,
+      "z": 5,
+      "intrinsicWidth": 204,
+      "intrinsicHeight": 315
+    },
+    {
+      "id": "sticker-moon",
+      "src": "media/sticker/moon.gif",
+      "x": 0.03,
+      "y": 1.86,
+      "width": 0.12,
+      "z": 6,
+      "intrinsicWidth": 288,
+      "intrinsicHeight": 382
+    },
+    {
+      "id": "sticker-pope",
+      "src": "media/sticker/pope.gif",
+      "x": 0.42,
+      "y": 2.52,
+      "width": 0.14,
+      "z": 7,
+      "intrinsicWidth": 166,
+      "intrinsicHeight": 150
+    }
+  ]
+}

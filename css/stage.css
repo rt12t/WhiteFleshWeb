@@ -1,0 +1,44 @@
+html,
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #f2c3d8;
+}
+
+.wf-stage {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.wf-strip,
+.wf-sticker {
+  position: absolute;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.wf-strip {
+  left: 0;
+  width: 100%;
+}
+
+.wf-sticker {
+  pointer-events: none;
+}
+
+.wf-stage-edit .wf-sticker {
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.wf-stage-edit .wf-sticker-selected {
+  outline: 2px solid #111;
+}

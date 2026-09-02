@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>白肉</title>
+    <link rel="stylesheet" href="css/stage.css" />
+    <link rel="stylesheet" href="css/editor.css" />
+  </head>
+  <body>
+    <button type="button" id="save" class="wf-save" hidden>保存</button>
+    <div id="load-fail" class="wf-load-fail" hidden>
+      <p>无法加载 data/site.json</p>
+      <button type="button" id="start-empty">从空白开始</button>
+    </div>
+    <div id="chrome" class="wf-chrome" hidden>
+      <div class="wf-chrome-row">
+        <label>
+          背景色
+          <input id="bg-color" type="color" />
+        </label>
+        <label>
+          间距
+          <input id="gap" type="range" min="0" max="0.4" step="0.005" />
+          <input id="gap-number" type="number" min="0" max="0.4" step="0.005" />
+        </label>
+      </div>
+      <div class="wf-strips">
+        <div class="wf-strips-head">背景图</div>
+        <ul id="strip-list" class="wf-strip-list"></ul>
+        <button type="button" id="add-strip">添加背景图</button>
+        <input
+          id="strip-file"
+          type="file"
+          hidden
+          accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"
+        />
+      </div>
+      <div class="wf-chrome-row">
+        <button type="button" id="add-sticker">添加贴纸</button>
+        <input
+          id="sticker-file"
+          type="file"
+          hidden
+          accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"
+        />
+        <button type="button" id="delete-sticker" disabled>删除所选贴纸</button>
+      </div>
+      <p id="status" class="wf-status" role="status"></p>
+    </div>
+    <div id="stage" class="wf-stage"></div>
+    <script src="vendor/jszip.min.js"></script>
+    <script type="module" src="js/editor.js"></script>
+  </body>
+</html>
