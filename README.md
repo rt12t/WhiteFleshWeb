@@ -2,22 +2,19 @@
 
 [中文](README.zh-CN.md)
 
-Static collage site for a graduation showcase. The public page is visual only. Layout is edited locally and published on GitHub Pages.
-
 ## Requirements
 
-- [GitHub Desktop](https://desktop.github.com/)
 - [Node.js](https://nodejs.org/) (local preview server only)
 
 ## Edit
 
-1. Clone this repository with GitHub Desktop.
+1. Clone this repository.
 2. Install Node.js once.
 3. Double-click `start.bat` in the repository root. The browser opens `http://127.0.0.1:4173/`.
 4. Press **F2** to enter edit mode. Press **F2** or **Esc** to exit.
 5. Edit background color, spacing, background strips, and stickers.
 6. Click **保存** at the top right. Changes are written to `data/` and `media/`.
-7. In GitHub Desktop, commit, then **Push origin**.
+7. Commit and push to `origin`.
 
 Do not open HTML via `file://`. Editing is available only on the local `start.bat` server, not on the public GitHub Pages URL.
 
