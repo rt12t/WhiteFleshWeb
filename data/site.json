@@ -78,8 +78,8 @@
     {
       "id": "sticker-sun",
       "src": "media/sticker/sun.gif",
-      "x": 0.84,
-      "y": 0.02,
+      "x": 0.3807990161468566,
+      "y": 0.06767517209755648,
       "width": 0.12,
       "z": 5,
       "intrinsicWidth": 204,
@@ -104,6 +104,16 @@
       "z": 7,
       "intrinsicWidth": 166,
       "intrinsicHeight": 150
+    },
+    {
+      "id": "sticker-2943466f",
+      "src": "media/sticker/pixpin_2026-08-17_10-15-42.png",
+      "x": 0.7138833995886542,
+      "y": 0.0762020755916624,
+      "width": 0.2,
+      "z": 8,
+      "intrinsicWidth": 1591,
+      "intrinsicHeight": 1185
     }
   ]
 }
