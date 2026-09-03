@@ -1,0 +1,28 @@
+# 白肉
+
+[English](README.md)
+
+毕业展示用静态拼贴站点。公开页只呈现画面。布局在本地编辑，经 GitHub Pages 发布。
+
+## 环境
+
+- [GitHub Desktop](https://desktop.github.com/)
+- [Node.js](https://nodejs.org/)（仅用于本地预览服务）
+
+## 编辑
+
+1. 用 GitHub Desktop 克隆本仓库。
+2. 安装一次 Node.js。
+3. 双击仓库根目录的 `start.bat`。浏览器将打开 `http://127.0.0.1:4173/`。
+4. 按 **F2** 进入编辑。再按 **F2** 或 **Esc** 退出。
+5. 修改背景色、间距、背景图与贴纸。
+6. 点击右上角 **保存**。文件写入 `data/` 与 `media/`。
+7. 在 GitHub Desktop 中提交，再点 **Push origin**。
+
+不要用 `file://` 直接打开 HTML。编辑仅在本地 `start.bat` 服务中可用，公开的 GitHub Pages 地址不提供编辑。
+
+## 发布
+
+1. 打开 GitHub 仓库 → **Settings** → **Pages**。
+2. 源设为分支 `main`，目录 `/`（仓库根）。
+3. 打开 Pages 地址。每次推送后强制刷新。

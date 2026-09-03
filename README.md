@@ -1,20 +1,28 @@
-# 白肉
+# White Flesh
 
-毕业展示用静态拼贴站。公开页只看画面。设计师在本地按 F2 编辑，点右上角「保存」写回仓库，再 push 即可。GitHub Pages 托管。不用 npm，不用写代码。
+[中文](README.zh-CN.md)
 
-## 设计师怎么改
+Static collage site for a graduation showcase. The public page is visual only. Layout is edited locally and published on GitHub Pages.
 
-1. 用 GitHub Desktop 把仓库拉到电脑。
-2. 安装一次 [Node.js](https://nodejs.org/)（只用来双击开本地预览，不用敲命令）。
-3. 双击仓库根目录的 `start.bat`。浏览器会打开本地页面。
-4. 按 **F2** 进入编辑。右上角出现「保存」。再按 F2 或 Esc 退出编辑。
-5. 改背景色、间距、背景图、贴纸。点右上角 **保存**。文件会直接写进这个仓库的 `data/` 和 `media/`。
-6. 打开 GitHub Desktop，提交，再点 **Push origin**。等 GitHub Pages 更新后，公开网址就是新画面。
+## Requirements
 
-不要用 `file://` 直接打开 html。必须走 `start.bat` 开出来的本地地址，保存才能自动写盘。
+- [GitHub Desktop](https://desktop.github.com/)
+- [Node.js](https://nodejs.org/) (local preview server only)
 
-公开的 GitHub Pages 网址没有编辑按钮，按 F2 也不会出现工具栏。编辑只在本地 `start.bat` 里做。
+## Edit
 
-## 公开站
+1. Clone this repository with GitHub Desktop.
+2. Install Node.js once.
+3. Double-click `start.bat` in the repository root. The browser opens `http://127.0.0.1:4173/`.
+4. Press **F2** to enter edit mode. Press **F2** or **Esc** to exit.
+5. Edit background color, spacing, background strips, and stickers.
+6. Click **保存** at the top right. Changes are written to `data/` and `media/`.
+7. In GitHub Desktop, commit, then **Push origin**.
 
-仓库 Settings → Pages → 分支 `main`、目录 `/`（仓库根）。打开 Pages 地址即可看拼贴。强制刷新后能看到最新提交。
+Do not open HTML via `file://`. Editing is available only on the local `start.bat` server, not on the public GitHub Pages URL.
+
+## Publish
+
+1. Open the repository on GitHub → **Settings** → **Pages**.
+2. Set source to branch `main`, folder `/` (root).
+3. Open the Pages URL. Hard-refresh after each push.
