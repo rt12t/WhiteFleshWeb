@@ -77,6 +77,16 @@ function resolveSrc(src) {
   return previewMap.get(src) || src;
 }
 
+function setChoiceGroup(container, value, enabled) {
+  if (!container) return;
+  container.querySelectorAll("[data-value]").forEach((btn) => {
+    const on = btn.dataset.value === value;
+    btn.classList.toggle("is-on", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.disabled = !enabled;
+  });
+}
+
 function renderChrome() {
   if (!doc) return;
   const colorInput = $("bg-color");
@@ -88,8 +98,6 @@ function renderChrome() {
   const hasImage = Boolean(doc.backgroundImage);
   const thumb = $("bg-image-thumb");
   const preview = $("bg-image-preview");
-  const repeat = $("bg-repeat");
-  const align = $("bg-align");
   const fixed = $("bg-fixed");
   const remove = $("bg-image-remove");
   if (thumb) {
@@ -101,15 +109,12 @@ function renderChrome() {
       thumb.removeAttribute("src");
     }
   }
-  if (preview) preview.classList.toggle("wf-page-bg-preview-filled", hasImage);
-  if (repeat) {
-    repeat.value = doc.backgroundRepeat || "repeat";
-    repeat.disabled = !hasImage;
+  if (preview) {
+    preview.classList.toggle("wf-page-bg-preview-filled", hasImage);
+    preview.title = hasImage ? "更换最底背景图" : "选择最底背景图";
   }
-  if (align) {
-    align.value = doc.backgroundAlign || "center";
-    align.disabled = !hasImage;
-  }
+  setChoiceGroup($("bg-repeat"), doc.backgroundRepeat || "repeat", hasImage);
+  setChoiceGroup($("bg-align"), doc.backgroundAlign || "center", hasImage);
   if (fixed) {
     fixed.checked = Boolean(doc.backgroundFixed);
     fixed.disabled = !hasImage;
@@ -127,13 +132,16 @@ function renderChrome() {
     li.className = "wf-strip-row";
     li.dataset.id = strip.id;
 
-    const thumb = document.createElement("img");
-    thumb.alt = "";
-    thumb.src = resolveSrc(strip.src);
+    const rowThumb = document.createElement("img");
+    rowThumb.alt = "";
+    rowThumb.src = resolveSrc(strip.src);
 
     const name = document.createElement("span");
     name.className = "wf-strip-name";
     name.textContent = fileName(strip.src);
+
+    const actions = document.createElement("div");
+    actions.className = "wf-strip-actions";
 
     const up = document.createElement("button");
     up.type = "button";
@@ -152,7 +160,8 @@ function renderChrome() {
     del.dataset.action = "delete";
     del.textContent = "删除";
 
-    li.append(thumb, name, up, down, del);
+    actions.append(up, down, del);
+    li.append(rowThumb, name, actions);
     stripList.appendChild(li);
   });
 }
@@ -307,11 +316,15 @@ function bindChrome() {
   $("bg-image-remove").addEventListener("click", () => {
     commit({ type: "setBackgroundImage", src: null });
   });
-  $("bg-repeat").addEventListener("change", (event) => {
-    commit({ type: "setBackgroundRepeat", backgroundRepeat: event.target.value });
+  $("bg-repeat").addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-value]");
+    if (!btn || btn.disabled) return;
+    commit({ type: "setBackgroundRepeat", backgroundRepeat: btn.dataset.value });
   });
-  $("bg-align").addEventListener("change", (event) => {
-    commit({ type: "setBackgroundAlign", backgroundAlign: event.target.value });
+  $("bg-align").addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-value]");
+    if (!btn || btn.disabled) return;
+    commit({ type: "setBackgroundAlign", backgroundAlign: btn.dataset.value });
   });
   $("bg-fixed").addEventListener("change", (event) => {
     commit({ type: "setBackgroundFixed", backgroundFixed: event.target.checked });

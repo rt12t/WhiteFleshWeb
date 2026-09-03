@@ -446,22 +446,28 @@ Vanilla ES modules, relative imports, no bundler required. `type="module"` is OK
 
 `edit.html` chrome language: Simplified Chinese. Public page: no copy required.
 
+Chrome is three labeled sections so page wallpaper, strips, and stickers cannot be confused. Palette matches the public page: flesh pink `#f2c3d8` on deep wine, not generic dark-admin gray.
+
 Required controls:
 
 | Control | Label | Behavior |
 |---|---|---|
+| Page section | `最底背景` | Groups page color + wallpaper. Hint: `背景图之间的缝隙会露出这里`. |
 | Color | `背景色` | `input type="color"` bound to `backgroundColor`. |
-| Page wallpaper preview | (click gray box) | File picker, `role: 'page'`, ingest, `setBackgroundImage`. Shows thumbnail when set. |
-| Repeat | `重复` | `无` `no-repeat` / `平铺` `repeat` / `水平` `repeat-x` / `垂直` `repeat-y`. Disabled with no image. |
-| Align | `对齐` | Nine-point align. Disabled with no image. |
+| Wallpaper field | `底图` | Label for the page wallpaper picker. |
+| Page wallpaper preview | `点击选图` when empty; `更换` on hover when set | File picker, `role: 'page'`, ingest, `setBackgroundImage`. Shows thumbnail when set. |
+| Repeat | `重复` | Segmented: `无` `no-repeat` / `平铺` `repeat` / `水平` `repeat-x` / `垂直` `repeat-y`. Disabled with no image. |
+| Align | `对齐` | Nine-point pad (3×3). Disabled with no image. |
 | Fixed | `固定` | Checkbox → `backgroundFixed`. Disabled with no image. |
 | Remove wallpaper | `移除图片` | `setBackgroundImage` `src: null`. Disabled with no image. |
+| Strip section | `背景图` | Stacked full-width images. Hint: `自上而下铺满整页宽`. |
 | Gap | `间距` | Range slider `0`–`0.4` step `0.005`, plus numeric readout. `applyOp setGap`. |
-| Strip list | `背景图` | One row per strip, thumbnail or filename, in order. |
+| Strip list | (inside `背景图`) | One row per strip, thumbnail or filename, in order. |
 | Add strip | `添加背景图` | File picker, `role: 'strip'`, ingest, `addStrip`. |
 | Strip up | `上移` | `moveStrip` toIndex-1. |
 | Strip down | `下移` | `moveStrip` toIndex+1. |
 | Strip delete | `删除` | `removeStrip`. Confirm not required. |
+| Sticker section | `贴纸` | Hint: `点选后可拖动。删除针对当前所选`. |
 | Add sticker | `添加贴纸` | File picker, `role: 'sticker'`. Place at viewport-center converted to stage units. `addSticker`. |
 | Delete sticker | `删除所选贴纸` | `removeSticker` on selection. Disabled when none selected. |
 | Save | `保存` | Fixed top-right. Visible only in edit mode. Run save flow §10. |
@@ -470,7 +476,7 @@ Required controls:
 
 File pickers: `accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"`.
 
-Layout of chrome: a panel that does not cover the whole collage. Desktop: panel at top or left, stage remains visible and scrollable. Mobile: panel stacked above the stage, collapsible is allowed but not required. Stage still uses full viewport width.
+Layout of chrome: a panel that does not cover the whole collage. Desktop: sticky top panel in three columns (`最底背景` / `背景图` / `贴纸`), stage remains visible and scrollable below. Mobile: the three sections stack, extra top padding so `保存` does not cover controls. Stage still uses full viewport width.
 
 Editor MUST work for the listed operations with a mouse and with a finger (sticker drag).
 

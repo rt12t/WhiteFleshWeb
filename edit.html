@@ -14,80 +14,107 @@
       <button type="button" id="start-empty">从空白开始</button>
     </div>
     <div id="chrome" class="wf-chrome" hidden>
-      <div class="wf-chrome-row">
-        <label>
-          背景色
-          <input id="bg-color" type="color" />
-        </label>
-        <label>
-          间距
-          <input id="gap" type="range" min="0" max="0.4" step="0.005" />
-          <input id="gap-number" type="number" min="0" max="0.4" step="0.005" />
-        </label>
-      </div>
-      <div class="wf-page-bg">
-        <div
-          id="bg-image-preview"
-          class="wf-page-bg-preview"
-          role="button"
-          tabindex="0"
-          title="选择背景图"
-        >
-          <img id="bg-image-thumb" alt="" hidden />
-        </div>
-        <div class="wf-page-bg-fields">
-          <label for="bg-repeat">重复</label>
-          <select id="bg-repeat">
-            <option value="no-repeat">无</option>
-            <option value="repeat">平铺</option>
-            <option value="repeat-x">水平</option>
-            <option value="repeat-y">垂直</option>
-          </select>
-          <label for="bg-align">对齐</label>
-          <select id="bg-align">
-            <option value="top-left">左上</option>
-            <option value="top">上</option>
-            <option value="top-right">右上</option>
-            <option value="left">左</option>
-            <option value="center">中</option>
-            <option value="right">右</option>
-            <option value="bottom-left">左下</option>
-            <option value="bottom">下</option>
-            <option value="bottom-right">右下</option>
-          </select>
-          <label for="bg-fixed">固定</label>
-          <input id="bg-fixed" type="checkbox" />
-          <button type="button" id="bg-image-remove" class="wf-remove-image">
-            移除图片
-          </button>
-        </div>
-        <input
-          id="bg-image-file"
-          type="file"
-          hidden
-          accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"
-        />
-      </div>
-      <div class="wf-strips">
-        <div class="wf-strips-head">背景图</div>
-        <ul id="strip-list" class="wf-strip-list"></ul>
-        <button type="button" id="add-strip">添加背景图</button>
-        <input
-          id="strip-file"
-          type="file"
-          hidden
-          accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"
-        />
-      </div>
-      <div class="wf-chrome-row">
-        <button type="button" id="add-sticker">添加贴纸</button>
-        <input
-          id="sticker-file"
-          type="file"
-          hidden
-          accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"
-        />
-        <button type="button" id="delete-sticker" disabled>删除所选贴纸</button>
+      <div class="wf-chrome-grid">
+        <section class="wf-section" aria-labelledby="sec-page">
+          <h2 id="sec-page" class="wf-section-title">最底背景</h2>
+          <p class="wf-section-hint">背景图之间的缝隙会露出这里</p>
+          <div class="wf-field wf-field-inline">
+            <label for="bg-color">背景色</label>
+            <input id="bg-color" type="color" />
+          </div>
+          <div class="wf-wallpaper">
+            <div class="wf-field-label" id="bg-image-label">底图</div>
+            <div
+              id="bg-image-preview"
+              class="wf-page-bg-preview"
+              role="button"
+              tabindex="0"
+              aria-labelledby="bg-image-label"
+              title="选择最底背景图"
+            >
+              <img id="bg-image-thumb" alt="" hidden />
+            </div>
+            <div class="wf-wallpaper-tools">
+              <div class="wf-field">
+                <span class="wf-field-label" id="bg-repeat-label">重复</span>
+                <div
+                  id="bg-repeat"
+                  class="wf-seg"
+                  role="group"
+                  aria-labelledby="bg-repeat-label"
+                >
+                  <button type="button" data-value="no-repeat">无</button>
+                  <button type="button" data-value="repeat">平铺</button>
+                  <button type="button" data-value="repeat-x">水平</button>
+                  <button type="button" data-value="repeat-y">垂直</button>
+                </div>
+              </div>
+              <div class="wf-wallpaper-row">
+                <div class="wf-field">
+                  <span class="wf-field-label" id="bg-align-label">对齐</span>
+                  <div
+                    id="bg-align"
+                    class="wf-align"
+                    role="group"
+                    aria-labelledby="bg-align-label"
+                  >
+                    <button type="button" data-value="top-left" title="左上" aria-label="左上"></button>
+                    <button type="button" data-value="top" title="上" aria-label="上"></button>
+                    <button type="button" data-value="top-right" title="右上" aria-label="右上"></button>
+                    <button type="button" data-value="left" title="左" aria-label="左"></button>
+                    <button type="button" data-value="center" title="中" aria-label="中"></button>
+                    <button type="button" data-value="right" title="右" aria-label="右"></button>
+                    <button type="button" data-value="bottom-left" title="左下" aria-label="左下"></button>
+                    <button type="button" data-value="bottom" title="下" aria-label="下"></button>
+                    <button type="button" data-value="bottom-right" title="右下" aria-label="右下"></button>
+                  </div>
+                </div>
+                <label class="wf-check" for="bg-fixed">
+                  <input id="bg-fixed" type="checkbox" />
+                  固定
+                </label>
+              </div>
+              <button type="button" id="bg-image-remove" class="wf-remove-image">
+                移除图片
+              </button>
+            </div>
+          </div>
+          <input
+            id="bg-image-file"
+            type="file"
+            hidden
+            accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"
+          />
+        </section>
+
+        <section class="wf-section wf-strips" aria-labelledby="sec-strips">
+          <h2 id="sec-strips" class="wf-section-title">背景图</h2>
+          <p class="wf-section-hint">自上而下铺满整页宽</p>
+          <div class="wf-field wf-field-gap">
+            <label for="gap">间距</label>
+            <div class="wf-gap-controls">
+              <input id="gap" type="range" min="0" max="0.4" step="0.005" />
+              <input id="gap-number" type="number" min="0" max="0.4" step="0.005" />
+            </div>
+          </div>
+          <ul id="strip-list" class="wf-strip-list"></ul>
+          <button type="button" id="add-strip" class="wf-btn-primary">添加背景图</button>
+          <input
+            id="strip-file"
+            type="file"
+            hidden
+            accept="image/gif,image/png,image/jpeg,image/webp,.gif,.png,.jpg,.jpeg,.webp"
+          />
+        </section>
+
+        <section class="wf-section" aria-labelledby="sec-stickers">
+          <h2 id="sec-stickers" class="wf-section-title">贴纸</h2>
+          <p class="wf-section-hint">点选后可拖动。删除针对当前所选</p>
+          <div class="wf-sticker-actions">
+            <button type="button" id="add-sticker" class="wf-btn-primary">添加贴纸</button>
+            <button type="button" id="delete-sticker" disabled>删除所选贴纸</button>
+          </div>
+        </section>
       </div>
       <p id="status" class="wf-status" role="status"></p>
     </div>
