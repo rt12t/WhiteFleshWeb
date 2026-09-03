@@ -63,7 +63,11 @@ function isSafeRel(rel) {
 function isAllowedWrite(rel) {
   if (rel === "data/site.json") return true;
   if (rel === ".nojekyll") return true;
-  return rel.startsWith("media/bg/") || rel.startsWith("media/sticker/");
+  return (
+    rel.startsWith("media/bg/") ||
+    rel.startsWith("media/sticker/") ||
+    rel.startsWith("media/page/")
+  );
 }
 
 async function readBody(req) {

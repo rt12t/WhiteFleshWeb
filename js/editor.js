@@ -7,6 +7,7 @@
 import { applyOp } from "./site-document.js";
 import { ingest } from "./media-ingest.js";
 import { createStage } from "./stage-renderer.js";
+import { applyPageBackground } from "./page-background.js";
 import {
   PublishedFetchAdapter,
   FileSystemAccessAdapter,
@@ -33,16 +34,18 @@ function emptyDoc() {
   return {
     schemaVersion: 1,
     backgroundColor: FALLBACK_COLOR,
+    backgroundImage: null,
+    backgroundRepeat: "repeat",
+    backgroundAlign: "center",
+    backgroundFixed: false,
     gap: DEFAULT_GAP,
     strips: [],
     stickers: [],
   };
 }
 
-function setPageColor(color) {
-  const value = color || FALLBACK_COLOR;
-  document.documentElement.style.backgroundColor = value;
-  document.body.style.backgroundColor = value;
+function setPageFromDoc(next) {
+  applyPageBackground(next, resolveSrc);
 }
 
 function $(id) {
@@ -62,6 +65,7 @@ function fileName(src) {
 function usedPaths() {
   const used = new Set();
   if (doc) {
+    if (doc.backgroundImage) used.add(doc.backgroundImage);
     for (const strip of doc.strips) used.add(strip.src);
     for (const sticker of doc.stickers) used.add(sticker.src);
   }
@@ -81,6 +85,36 @@ function renderChrome() {
   const stripList = $("strip-list");
   const deleteBtn = $("delete-sticker");
   if (colorInput) colorInput.value = doc.backgroundColor;
+  const hasImage = Boolean(doc.backgroundImage);
+  const thumb = $("bg-image-thumb");
+  const preview = $("bg-image-preview");
+  const repeat = $("bg-repeat");
+  const align = $("bg-align");
+  const fixed = $("bg-fixed");
+  const remove = $("bg-image-remove");
+  if (thumb) {
+    if (hasImage) {
+      thumb.hidden = false;
+      thumb.src = resolveSrc(doc.backgroundImage);
+    } else {
+      thumb.hidden = true;
+      thumb.removeAttribute("src");
+    }
+  }
+  if (preview) preview.classList.toggle("wf-page-bg-preview-filled", hasImage);
+  if (repeat) {
+    repeat.value = doc.backgroundRepeat || "repeat";
+    repeat.disabled = !hasImage;
+  }
+  if (align) {
+    align.value = doc.backgroundAlign || "center";
+    align.disabled = !hasImage;
+  }
+  if (fixed) {
+    fixed.checked = Boolean(doc.backgroundFixed);
+    fixed.disabled = !hasImage;
+  }
+  if (remove) remove.disabled = !hasImage;
   const gapUi = Math.min(doc.gap, 0.4);
   if (gapSlider) gapSlider.value = String(gapUi);
   if (gapNumber) gapNumber.value = String(gapUi);
@@ -131,7 +165,7 @@ function commit(op) {
     return false;
   }
   doc = result.doc;
-  setPageColor(doc.backgroundColor);
+  setPageFromDoc(doc);
   if (stage) stage.update(doc);
   if (editMode) renderChrome();
   return true;
@@ -157,7 +191,7 @@ function stickerTopLeft(blob) {
 function startWithDoc(next) {
   doc = next;
   selectedId = null;
-  setPageColor(doc.backgroundColor);
+  setPageFromDoc(doc);
   $("load-fail").hidden = true;
   if (stage) stage.update(doc);
   applyEditChrome();
@@ -228,6 +262,11 @@ async function ingestFile(role, file) {
         intrinsicWidth: result.blob.intrinsicWidth,
         intrinsicHeight: result.blob.intrinsicHeight,
       });
+    } else if (role === "page") {
+      commit({
+        type: "setBackgroundImage",
+        src: result.blob.relativePath,
+      });
     } else {
       const pos = stickerTopLeft(result.blob);
       commit({
@@ -248,6 +287,34 @@ async function ingestFile(role, file) {
 function bindChrome() {
   $("bg-color").addEventListener("input", (event) => {
     commit({ type: "setBackgroundColor", backgroundColor: event.target.value });
+  });
+
+  function pickPageBackground() {
+    $("bg-image-file").click();
+  }
+  $("bg-image-preview").addEventListener("click", pickPageBackground);
+  $("bg-image-preview").addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      pickPageBackground();
+    }
+  });
+  $("bg-image-file").addEventListener("change", (event) => {
+    const file = event.target.files && event.target.files[0];
+    event.target.value = "";
+    ingestFile("page", file);
+  });
+  $("bg-image-remove").addEventListener("click", () => {
+    commit({ type: "setBackgroundImage", src: null });
+  });
+  $("bg-repeat").addEventListener("change", (event) => {
+    commit({ type: "setBackgroundRepeat", backgroundRepeat: event.target.value });
+  });
+  $("bg-align").addEventListener("change", (event) => {
+    commit({ type: "setBackgroundAlign", backgroundAlign: event.target.value });
+  });
+  $("bg-fixed").addEventListener("change", (event) => {
+    commit({ type: "setBackgroundFixed", backgroundFixed: event.target.checked });
   });
 
   function setGapFromUi(raw) {
@@ -412,7 +479,7 @@ async function saveNow() {
 }
 
 async function boot() {
-  setPageColor(FALLBACK_COLOR);
+  setPageFromDoc(null);
   const root = $("stage");
   if (!root) {
     console.error("missing #stage");
@@ -451,7 +518,7 @@ async function boot() {
 
 function failSafe(err) {
   if (err) console.error(err);
-  setPageColor(FALLBACK_COLOR);
+  setPageFromDoc(null);
   doc = null;
   applyEditChrome();
 }

@@ -121,7 +121,7 @@ async function decodeSize(file, previewUrl) {
 
 /**
  * @param {File} file
- * @param {'strip' | 'sticker'} role
+ * @param {'strip' | 'sticker' | 'page'} role
  * @param {Iterable<string>=} usedPaths document + pending relative paths
  * @returns {Promise<
  *   | { ok: true, blob: {
@@ -136,7 +136,7 @@ async function decodeSize(file, previewUrl) {
  * >}
  */
 export async function ingest(file, role, usedPaths) {
-  if (role !== "strip" && role !== "sticker") {
+  if (role !== "strip" && role !== "sticker" && role !== "page") {
     return fail("unsupported-type", "不支持的格式");
   }
   if (!file || typeof file.size !== "number") {
@@ -149,7 +149,8 @@ export async function ingest(file, role, usedPaths) {
   const type = resolveType(file);
   if (!type) return fail("unsupported-type", "不支持的格式");
 
-  const dir = role === "strip" ? "media/bg" : "media/sticker";
+  const dir =
+    role === "strip" ? "media/bg" : role === "page" ? "media/page" : "media/sticker";
   const rawBase = baseFromName(file.name);
   const base = isAsciiBase(rawBase)
     ? rawBase.toLowerCase()

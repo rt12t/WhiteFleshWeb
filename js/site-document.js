@@ -11,6 +11,36 @@ const STICKER_X_INSET = 0.02;
 const GAP_MIN = 0;
 const GAP_MAX = 2;
 const WIDTH_MAX = 2;
+const DEFAULT_BG_REPEAT = "repeat";
+const DEFAULT_BG_ALIGN = "center";
+const BACKGROUND_REPEATS = new Set([
+  "no-repeat",
+  "repeat",
+  "repeat-x",
+  "repeat-y",
+]);
+const BACKGROUND_ALIGNS = new Set([
+  "top-left",
+  "top",
+  "top-right",
+  "left",
+  "center",
+  "right",
+  "bottom-left",
+  "bottom",
+  "bottom-right",
+]);
+const ALIGN_TO_CSS = {
+  "top-left": "left top",
+  top: "center top",
+  "top-right": "right top",
+  left: "left center",
+  center: "center center",
+  right: "right center",
+  "bottom-left": "left bottom",
+  bottom: "center bottom",
+  "bottom-right": "right bottom",
+};
 
 function fail(message) {
   return { ok: false, error: { message } };
@@ -70,10 +100,38 @@ function makeId(prefix, ids) {
   }
 }
 
+function parseBackgroundImage(raw) {
+  if (raw === undefined || raw === null || raw === "") return { ok: true, value: null };
+  if (!isValidSrc(raw)) return fail("backgroundImage invalid");
+  return { ok: true, value: raw };
+}
+
+function parseBackgroundRepeat(raw) {
+  if (raw === undefined) return DEFAULT_BG_REPEAT;
+  if (typeof raw !== "string" || !BACKGROUND_REPEATS.has(raw)) return null;
+  return raw;
+}
+
+function parseBackgroundAlign(raw) {
+  if (raw === undefined) return DEFAULT_BG_ALIGN;
+  if (typeof raw !== "string" || !BACKGROUND_ALIGNS.has(raw)) return null;
+  return raw;
+}
+
+function parseBackgroundFixed(raw) {
+  if (raw === undefined) return false;
+  if (typeof raw !== "boolean") return null;
+  return raw;
+}
+
 function cloneDoc(doc) {
   return {
     schemaVersion: SCHEMA_VERSION,
     backgroundColor: doc.backgroundColor,
+    backgroundImage: doc.backgroundImage || null,
+    backgroundRepeat: doc.backgroundRepeat || DEFAULT_BG_REPEAT,
+    backgroundAlign: doc.backgroundAlign || DEFAULT_BG_ALIGN,
+    backgroundFixed: Boolean(doc.backgroundFixed),
     gap: doc.gap,
     strips: doc.strips.map((strip) => ({
       id: strip.id,
@@ -165,6 +223,14 @@ export function parseSiteDocument(input) {
   }
   const backgroundColor = normalizeColor(raw.backgroundColor);
   if (!backgroundColor) return fail("backgroundColor invalid");
+  const imageParsed = parseBackgroundImage(raw.backgroundImage);
+  if (!imageParsed.ok) return imageParsed;
+  const backgroundRepeat = parseBackgroundRepeat(raw.backgroundRepeat);
+  if (!backgroundRepeat) return fail("backgroundRepeat invalid");
+  const backgroundAlign = parseBackgroundAlign(raw.backgroundAlign);
+  if (!backgroundAlign) return fail("backgroundAlign invalid");
+  const backgroundFixed = parseBackgroundFixed(raw.backgroundFixed);
+  if (backgroundFixed === null) return fail("backgroundFixed invalid");
   if (!isFiniteNumber(raw.gap) || raw.gap < GAP_MIN || raw.gap > GAP_MAX) {
     return fail("gap invalid");
   }
@@ -188,6 +254,10 @@ export function parseSiteDocument(input) {
   return okDoc({
     schemaVersion: SCHEMA_VERSION,
     backgroundColor,
+    backgroundImage: imageParsed.value,
+    backgroundRepeat,
+    backgroundAlign,
+    backgroundFixed,
     gap: raw.gap,
     strips,
     stickers,
@@ -203,6 +273,10 @@ export function serializeSiteDocument(doc) {
   const payload = {
     schemaVersion: SCHEMA_VERSION,
     backgroundColor: doc.backgroundColor,
+    backgroundImage: doc.backgroundImage || null,
+    backgroundRepeat: doc.backgroundRepeat || DEFAULT_BG_REPEAT,
+    backgroundAlign: doc.backgroundAlign || DEFAULT_BG_ALIGN,
+    backgroundFixed: Boolean(doc.backgroundFixed),
     gap: doc.gap,
     strips: doc.strips.map((strip) => ({
       id: strip.id,
@@ -222,6 +296,34 @@ export function serializeSiteDocument(doc) {
     })),
   };
   return JSON.stringify(payload, null, 2) + "\n";
+}
+
+/**
+ * CSS values for the page behind the collage.
+ * Hosts resolve `imageSrc` (blob preview or committed path) then apply to `html`.
+ * @param {object} doc
+ * @returns {{
+ *   color: string,
+ *   imageSrc: string | null,
+ *   repeat: string,
+ *   position: string,
+ *   attachment: string
+ * }}
+ */
+export function pageBackgroundStyle(doc) {
+  const align = BACKGROUND_ALIGNS.has(doc.backgroundAlign)
+    ? doc.backgroundAlign
+    : DEFAULT_BG_ALIGN;
+  const repeat = BACKGROUND_REPEATS.has(doc.backgroundRepeat)
+    ? doc.backgroundRepeat
+    : DEFAULT_BG_REPEAT;
+  return {
+    color: doc.backgroundColor,
+    imageSrc: doc.backgroundImage || null,
+    repeat,
+    position: ALIGN_TO_CSS[align],
+    attachment: doc.backgroundFixed ? "fixed" : "scroll",
+  };
 }
 
 /**
@@ -330,6 +432,34 @@ export function applyOp(doc, op) {
       const color = normalizeColor(op.backgroundColor);
       if (!color) return fail("backgroundColor invalid");
       next.backgroundColor = color;
+      return okDoc(next);
+    }
+    case "setBackgroundImage": {
+      if (op.src === undefined || op.src === null || op.src === "") {
+        next.backgroundImage = null;
+        return okDoc(next);
+      }
+      if (!isValidSrc(op.src)) return fail("src invalid");
+      next.backgroundImage = op.src;
+      return okDoc(next);
+    }
+    case "setBackgroundRepeat": {
+      if (typeof op.backgroundRepeat !== "string" || !BACKGROUND_REPEATS.has(op.backgroundRepeat)) {
+        return fail("backgroundRepeat invalid");
+      }
+      next.backgroundRepeat = op.backgroundRepeat;
+      return okDoc(next);
+    }
+    case "setBackgroundAlign": {
+      if (typeof op.backgroundAlign !== "string" || !BACKGROUND_ALIGNS.has(op.backgroundAlign)) {
+        return fail("backgroundAlign invalid");
+      }
+      next.backgroundAlign = op.backgroundAlign;
+      return okDoc(next);
+    }
+    case "setBackgroundFixed": {
+      if (typeof op.backgroundFixed !== "boolean") return fail("backgroundFixed invalid");
+      next.backgroundFixed = op.backgroundFixed;
       return okDoc(next);
     }
     case "setGap": {

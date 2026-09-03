@@ -33,11 +33,12 @@ Use these terms in code and comments.
 
 Domain:
 
-- **SiteDocument**: the in-memory / JSON layout. Color, gap, strips, stickers.
+- **SiteDocument**: the in-memory / JSON layout. Color, optional page wallpaper, gap, strips, stickers.
+- **Page background**: `html` layer behind the collage. Solid `backgroundColor`, plus optional `backgroundImage` tiled/aligned/fixed like itch.io.
 - **Strip**: one full-width stacked background image or GIF. Order in the array is top-to-bottom.
 - **Sticker**: one image/GIF placed in stage space, not constrained to a strip. Floats over strips and gaps.
 - **Stage**: the collage coordinate space. Width is always `1`. Y uses the same unit as X.
-- **Gap**: empty band between consecutive strips. Page `backgroundColor` shows through.
+- **Gap**: empty band between consecutive strips. Page background (color and optional image) shows through.
 - **MediaBlob**: bytes + relative path + intrinsic size, produced by ingest, committed by save.
 - **Viewer**: `index.html`. No chrome. GitHub Pages public URL.
 - **Editor**: `edit.html`. Chinese chrome, hidden until F2. Same stage drawing as viewer. Local `start.bat` serves this page at `/`.
@@ -50,10 +51,10 @@ Reference look (video ~18s, 1280×720, vertical collage): white flesh, pink pipe
 
 Rules:
 
-1. The page (behind the collage) is filled with `backgroundColor`.
+1. The page (behind the collage) is filled with `backgroundColor`. If `backgroundImage` is set, that image paints on `html` at intrinsic size (`background-size: auto`) using `backgroundRepeat`, `backgroundAlign` → CSS `background-position`, and `backgroundFixed` → `background-attachment: fixed | scroll`. Gaps show this layer.
 2. Strips stack vertically, each displayed at 100% of stage width. Height from stored intrinsic aspect ratio: `height = intrinsicHeight / intrinsicWidth` in stage units.
 3. Between strip `i` and strip `i+1` there is exactly one gap of height `gap` (stage units). No extra gap above the first strip or below the last strip from `gap` itself.
-4. Gaps are empty: the page color shows through. No checker is stored in the document. Editor MAY draw a non-saved checker overlay behind the stage to help judge gaps; public viewer MUST NOT.
+4. Gaps are empty: the page background shows through. No checker is stored in the document. Editor MAY draw a non-saved checker overlay behind the stage to help judge gaps; public viewer MUST NOT.
 5. Stickers are `position: absolute` in stage space and may overlap strips, gaps, other stickers, and the edges of the stage.
 6. Public page is silent visual: no instructions, no editor UI, no “open editor” link. `<title>白肉</title>` is enough.
 7. Seed `backgroundColor` MUST contrast with the white flesh images so gaps read as gaps. Seed value: `#f2c3d8`.
@@ -129,6 +130,10 @@ Committed file: `data/site.json` (UTF-8, JSON). Viewer and editor both read this
 {
   "schemaVersion": 1,
   "backgroundColor": "#f2c3d8",
+  "backgroundImage": null,
+  "backgroundRepeat": "repeat",
+  "backgroundAlign": "center",
+  "backgroundFixed": false,
   "gap": 0.06,
   "strips": [
     {
@@ -157,6 +162,10 @@ Committed file: `data/site.json` (UTF-8, JSON). Viewer and editor both read this
 |---|---|---|
 | `schemaVersion` | number | MUST be `1`. Other values → parse error. |
 | `backgroundColor` | string | `#` + 6 hex digits, e.g. `#f2c3d8`. Case-insensitive. No alpha. |
+| `backgroundImage` | string or `null` | Optional. Missing/`null`/`""` → no page wallpaper. Else a valid `media/` src. SHOULD live under `media/page/`. |
+| `backgroundRepeat` | string | Optional. Default `repeat`. One of `no-repeat`, `repeat`, `repeat-x`, `repeat-y`. |
+| `backgroundAlign` | string | Optional. Default `center`. One of `top-left`, `top`, `top-right`, `left`, `center`, `right`, `bottom-left`, `bottom`, `bottom-right`. Maps to CSS `background-position`. |
+| `backgroundFixed` | boolean | Optional. Default `false`. `true` → `background-attachment: fixed`. |
 | `gap` | number | Finite, `>= 0`, `<= 2`. |
 | `strips` | array | Order = visual top-to-bottom. May be empty. |
 | `strips[].id` | string | Non-empty. Unique among all strip and sticker ids. |
@@ -187,6 +196,7 @@ A valid `src` MUST match all of:
 - MUST NOT contain `://`.
 - Strips SHOULD live under `media/bg/`.
 - Stickers SHOULD live under `media/sticker/`.
+- Page wallpaper SHOULD live under `media/page/`.
 
 ### 6.3 Parse errors
 
@@ -238,6 +248,10 @@ Stickers in `Layout` MUST be sorted by `z` ascending, then `id` for ties.
 | `op.type` | Fields | Effect |
 |---|---|---|
 | `setBackgroundColor` | `backgroundColor` | Replace color after validating hex. |
+| `setBackgroundImage` | `src` | `null`/`""` clears. Else validate as `src` and set `backgroundImage`. Does not delete the file. |
+| `setBackgroundRepeat` | `backgroundRepeat` | One of `no-repeat`, `repeat`, `repeat-x`, `repeat-y`. |
+| `setBackgroundAlign` | `backgroundAlign` | One of the nine align tokens. |
+| `setBackgroundFixed` | `backgroundFixed` | Boolean. |
 | `setGap` | `gap` | Replace gap after validating range. |
 | `addStrip` | `id?`, `src`, `intrinsicWidth`, `intrinsicHeight`, `index?` | Insert. Default index = append. Default id = `strip-` + unique suffix. |
 | `removeStrip` | `id` | Remove. Error if missing. Does not delete the file. |
@@ -265,13 +279,13 @@ ingest(file, role) -> Promise<
 >
 ```
 
-`role`: `'strip' | 'sticker'`.
+`role`: `'strip' | 'sticker' | 'page'`.
 
 `MediaBlob`:
 
 ```
 {
-  relativePath,     // media/bg/<ascii> or media/sticker/<ascii>
+  relativePath,     // media/bg/<ascii> or media/sticker/<ascii> or media/page/<ascii>
   bytes,            // ArrayBuffer
   mime,             // image/gif | image/png | image/jpeg | image/webp
   byteLength,
@@ -292,7 +306,7 @@ ingest(file, role) -> Promise<
 
 Allowlist: `.gif .png .jpg .jpeg .webp` and MIME `image/gif image/png image/jpeg image/webp`. Empty MIME: trust extension if in allowlist, then verify decode.
 
-**ASCII rename:** output filename uses `[a-z0-9._-]`. If the original base is already ASCII and unique, keep a slug of it. Otherwise `strip-<8hex>.<ext>` or `sticker-<8hex>.<ext>`. Spaces, CJK, and punctuation are not copied into `relativePath`. Collision: append `-2`, `-3`, … against already-used paths in the current document + pending blobs.
+**ASCII rename:** output filename uses `[a-z0-9._-]`. If the original base is already ASCII and unique, keep a slug of it. Otherwise `strip-<8hex>.<ext>`, `sticker-<8hex>.<ext>`, or `page-<8hex>.<ext>`. Spaces, CJK, and punctuation are not copied into `relativePath`. Collision: append `-2`, `-3`, … against already-used paths in the current document + pending blobs.
 
 **Dimensions:** decode via `createImageBitmap` or `Image()`. GIF: first-frame size is enough.
 
@@ -410,6 +424,7 @@ One adapter would be a hypothetical seam. Fetch vs local-dev vs FS vs zip vs mem
 | `data/site.json` | Committed layout. |
 | `media/bg/` | Strip files, ASCII names. |
 | `media/sticker/` | Sticker files, ASCII names. |
+| `media/page/` | Page wallpaper files, ASCII names. |
 | `css/stage.css` | Shared stage rules. Linked from both HTML files. |
 | `css/editor.css` | Editor chrome. Linked from `edit.html` only. |
 | `js/site-document.js` | SiteDocument module. |
@@ -425,7 +440,7 @@ Vanilla ES modules, relative imports, no bundler required. `type="module"` is OK
 
 `index.html` MUST include `<meta name="viewport" content="width=device-width, initial-scale=1">`. Same on `edit.html`.
 
-`index.html` body: margin 0, background from the document color (set by JS after load, fallback `#f2c3d8` in CSS).
+`index.html` body: margin 0. Page background from the document (color + optional image) set by JS after load, fallback `#f2c3d8` in CSS. Wallpaper paints on `html`; `body` is transparent when an image is set so gaps show the tiles.
 
 ## 9. Editor UI (Chinese)
 
@@ -436,6 +451,11 @@ Required controls:
 | Control | Label | Behavior |
 |---|---|---|
 | Color | `背景色` | `input type="color"` bound to `backgroundColor`. |
+| Page wallpaper preview | (click gray box) | File picker, `role: 'page'`, ingest, `setBackgroundImage`. Shows thumbnail when set. |
+| Repeat | `重复` | `无` `no-repeat` / `平铺` `repeat` / `水平` `repeat-x` / `垂直` `repeat-y`. Disabled with no image. |
+| Align | `对齐` | Nine-point align. Disabled with no image. |
+| Fixed | `固定` | Checkbox → `backgroundFixed`. Disabled with no image. |
+| Remove wallpaper | `移除图片` | `setBackgroundImage` `src: null`. Disabled with no image. |
 | Gap | `间距` | Range slider `0`–`0.4` step `0.005`, plus numeric readout. `applyOp setGap`. |
 | Strip list | `背景图` | One row per strip, thumbnail or filename, in order. |
 | Add strip | `添加背景图` | File picker, `role: 'strip'`, ingest, `addStrip`. |
@@ -470,7 +490,7 @@ Edits live in the current `SiteDocument` plus a list of pending `MediaBlob`s. Ob
    - `window.showDirectoryPicker({ mode: 'readwrite' })`.
    - User selects the **repo root** (folder that contains or will contain `index.html`).
    - Create `data/` if needed. Write `data/site.json`.
-   - For each pending `MediaBlob`, create `media/bg` or `media/sticker` as needed, write the file.
+   - For each pending `MediaBlob`, create `media/bg`, `media/sticker`, or `media/page` as needed, write the file.
    - If `.nojekyll` is missing, write an empty one.
    - Status: `已保存到文件夹`. `method: 'fs'`.
 4. If local write and FS are missing, denied, or throw: Zip fallback.

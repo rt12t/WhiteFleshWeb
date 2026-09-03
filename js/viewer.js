@@ -4,22 +4,15 @@
 
 import { createStage } from "./stage-renderer.js";
 import { PublishedFetchAdapter } from "./persist.js";
-
-const FALLBACK_COLOR = "#f2c3d8";
-
-function setPageColor(color) {
-  const value = color || FALLBACK_COLOR;
-  document.documentElement.style.backgroundColor = value;
-  document.body.style.backgroundColor = value;
-}
+import { applyPageBackground } from "./page-background.js";
 
 function failSafe(err) {
-  setPageColor(FALLBACK_COLOR);
+  applyPageBackground(null);
   if (err) console.error(err);
 }
 
 async function boot() {
-  setPageColor(FALLBACK_COLOR);
+  applyPageBackground(null);
   const root = document.getElementById("stage");
   if (!root) {
     failSafe(new Error("missing #stage"));
@@ -40,7 +33,7 @@ async function boot() {
       failSafe(result.error);
       return;
     }
-    setPageColor(result.doc.backgroundColor);
+    applyPageBackground(result.doc);
     stage.update(result.doc);
   } catch (err) {
     failSafe(err);
