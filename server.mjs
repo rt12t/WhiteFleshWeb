@@ -199,6 +199,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`白肉本地编辑 http://${HOST}:${PORT}`);
-  console.log("按 F2 进入编辑。保存后用 GitHub Desktop 或 git push。");
+  console.log(`http://${HOST}:${PORT}`);
+  console.log("按 F2 进入编辑。");
 });
