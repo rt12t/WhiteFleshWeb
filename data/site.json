@@ -1,6 +1,10 @@
 {
   "schemaVersion": 1,
   "backgroundColor": "#f2c3d8",
+  "backgroundImage": null,
+  "backgroundRepeat": "repeat",
+  "backgroundAlign": "center",
+  "backgroundFixed": false,
   "gap": 0.06,
   "strips": [
     {
@@ -28,18 +32,54 @@
       "intrinsicHeight": 925
     },
     {
+      "id": "strip-1aa701b8",
+      "src": "media/bg/20260912-170533.516-10.gif",
+      "intrinsicWidth": 1956,
+      "intrinsicHeight": 1100
+    },
+    {
       "id": "strip-brain-figure",
       "src": "media/bg/brain-figure.gif",
       "intrinsicWidth": 2069,
       "intrinsicHeight": 1165
+    },
+    {
+      "id": "strip-b6e00fb5",
+      "src": "media/bg/20260912-170533.516-2.gif",
+      "intrinsicWidth": 1070,
+      "intrinsicHeight": 601
+    },
+    {
+      "id": "strip-33ecd414",
+      "src": "media/bg/20260912-170533.516-5.gif",
+      "intrinsicWidth": 707,
+      "intrinsicHeight": 405
+    },
+    {
+      "id": "strip-30fb1168",
+      "src": "media/bg/20260912-170533.516-12.gif",
+      "intrinsicWidth": 1600,
+      "intrinsicHeight": 899
+    },
+    {
+      "id": "strip-cfa11c2b",
+      "src": "media/bg/20260912-170533.516-11.gif",
+      "intrinsicWidth": 820,
+      "intrinsicHeight": 462
+    },
+    {
+      "id": "strip-fd943e69",
+      "src": "media/bg/strip-60535d62.gif",
+      "intrinsicWidth": 3840,
+      "intrinsicHeight": 2160
     }
   ],
   "stickers": [
     {
       "id": "sticker-spine-walker",
       "src": "media/sticker/spine-walker.gif",
-      "x": 0.08,
-      "y": 0.35,
+      "x": 0.1812727169438673,
+      "y": 6.557983123620559,
       "width": 0.18,
       "z": 1,
       "intrinsicWidth": 648,
@@ -48,8 +88,8 @@
     {
       "id": "sticker-crawl",
       "src": "media/sticker/crawl.gif",
-      "x": 0.74,
-      "y": 0.58,
+      "x": 0.792409307234309,
+      "y": 6.604746345295553,
       "width": 0.18,
       "z": 2,
       "intrinsicWidth": 574,
@@ -58,8 +98,8 @@
     {
       "id": "sticker-walk",
       "src": "media/sticker/walk.gif",
-      "x": 0.04,
-      "y": 1.02,
+      "x": 0.1050195058517554,
+      "y": 0.8154841187158395,
       "width": 0.16,
       "z": 3,
       "intrinsicWidth": 493,
@@ -68,8 +108,8 @@
     {
       "id": "sticker-flying-eye",
       "src": "media/sticker/flying-eye.gif",
-      "x": 0.78,
-      "y": 1.22,
+      "x": 0.050599464446267506,
+      "y": 1.6199684039886038,
       "width": 0.14,
       "z": 4,
       "intrinsicWidth": 318,
@@ -78,8 +118,8 @@
     {
       "id": "sticker-sun",
       "src": "media/sticker/sun.gif",
-      "x": 0.3807990161468566,
-      "y": 0.06767517209755648,
+      "x": 0.45803436326466385,
+      "y": -0.00010271704005882475,
       "width": 0.12,
       "z": 5,
       "intrinsicWidth": 204,
@@ -88,8 +128,8 @@
     {
       "id": "sticker-moon",
       "src": "media/sticker/moon.gif",
-      "x": 0.03,
-      "y": 1.86,
+      "x": 0.10841744193485095,
+      "y": 1.8934948823727928,
       "width": 0.12,
       "z": 6,
       "intrinsicWidth": 288,
@@ -98,22 +138,342 @@
     {
       "id": "sticker-pope",
       "src": "media/sticker/pope.gif",
-      "x": 0.42,
-      "y": 2.52,
+      "x": 0.6418546179088098,
+      "y": 3.5713455672443923,
       "width": 0.14,
       "z": 7,
       "intrinsicWidth": 166,
       "intrinsicHeight": 150
     },
     {
-      "id": "sticker-2943466f",
-      "src": "media/sticker/pixpin_2026-08-17_10-15-42.png",
-      "x": 0.7138833995886542,
-      "y": 0.0762020755916624,
+      "id": "sticker-129580f8",
+      "src": "media/sticker/0171.png",
+      "x": 0.6937896291983299,
+      "y": 0.6163047611217263,
       "width": 0.2,
       "z": 8,
-      "intrinsicWidth": 1591,
-      "intrinsicHeight": 1185
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-1452fee9",
+      "src": "media/sticker/0172.png",
+      "x": 0.7150687546351795,
+      "y": -0.005918417062197742,
+      "width": 0.2,
+      "z": 9,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-7a8466dd",
+      "src": "media/sticker/0173.png",
+      "x": 0.7257083173536045,
+      "y": 0.43384990412019214,
+      "width": 0.2,
+      "z": 10,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-9d741fea",
+      "src": "media/sticker/0175.png",
+      "x": 0.7103399586770562,
+      "y": -0.012223288183568305,
+      "width": 0.2,
+      "z": 12,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-eadb6cdf",
+      "src": "media/sticker/0176.png",
+      "x": 0.7261022282514834,
+      "y": 0.4141470225068068,
+      "width": 0.2,
+      "z": 13,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-d7708904",
+      "src": "media/sticker/0177.png",
+      "x": 0.2839698464104661,
+      "y": 1.5632189106305556,
+      "width": 0.2,
+      "z": 14,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-46b522ab",
+      "src": "media/sticker/0178.png",
+      "x": 0.07196674123697075,
+      "y": 0.3014464944376194,
+      "width": 0.2,
+      "z": 15,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-a5450274",
+      "src": "media/sticker/0179.png",
+      "x": 0.4049453159922585,
+      "y": -0.0666032362774936,
+      "width": 0.2,
+      "z": 16,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-ff4c3f41",
+      "src": "media/sticker/0180.png",
+      "x": 0.5022777383752234,
+      "y": 1.4666746944894318,
+      "width": 0.2,
+      "z": 17,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-e83848e4",
+      "src": "media/sticker/0181.png",
+      "x": 0.4010048974164906,
+      "y": 0.30262875295428576,
+      "width": 0.2,
+      "z": 18,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-811fd530",
+      "src": "media/sticker/0182.png",
+      "x": 0.07117851267245415,
+      "y": -0.07093795267752098,
+      "width": 0.2,
+      "z": 19,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-1da69ef1",
+      "src": "media/sticker/0183.png",
+      "x": 0.015222489415281606,
+      "y": 1.6128703098659776,
+      "width": 0.2,
+      "z": 20,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-8aea15aa",
+      "src": "media/sticker/0184.png",
+      "x": 0.5361665762912469,
+      "y": 2.1929229774044052,
+      "width": 0.2,
+      "z": 21,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-b577412f",
+      "src": "media/sticker/0185.png",
+      "x": 0.05659848177231501,
+      "y": 2.207503070932052,
+      "width": 0.2,
+      "z": 22,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-72179a8f",
+      "src": "media/sticker/0186.png",
+      "x": 0.029802986611315377,
+      "y": 2.0400286342651146,
+      "width": 0.2,
+      "z": 23,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-5db0fec6",
+      "src": "media/sticker/0187.png",
+      "x": 0.4021869178246149,
+      "y": 1.1033538242201721,
+      "width": 0.2,
+      "z": 24,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-599848db",
+      "src": "media/sticker/0189.png",
+      "x": 0.30209647427919784,
+      "y": 1.6061711740943239,
+      "width": 0.2,
+      "z": 25,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-0e15d624",
+      "src": "media/sticker/0190.png",
+      "x": 0.42228397324739414,
+      "y": 1.2519133746902937,
+      "width": 0.2,
+      "z": 26,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-b81c3209",
+      "src": "media/sticker/0191.png",
+      "x": 0.08260629403420647,
+      "y": 0.33454744358985766,
+      "width": 0.2,
+      "z": 27,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-5360e0cd",
+      "src": "media/sticker/20260912-170533.516-1.gif",
+      "x": 0.14210892418116058,
+      "y": 3.407156242929499,
+      "width": 0.2,
+      "z": 28,
+      "intrinsicWidth": 192,
+      "intrinsicHeight": 241
+    },
+    {
+      "id": "sticker-9b1b91ff",
+      "src": "media/sticker/0191-2.png",
+      "x": 0.5137053213131908,
+      "y": 1.5470625937418978,
+      "width": 0.2,
+      "z": 29,
+      "intrinsicWidth": 2832,
+      "intrinsicHeight": 4775
+    },
+    {
+      "id": "sticker-04df827a",
+      "src": "media/sticker/20260912-170533.516-3.gif",
+      "x": 0.7840287385898386,
+      "y": 4.000994672969558,
+      "width": 0.2,
+      "z": 30,
+      "intrinsicWidth": 192,
+      "intrinsicHeight": 241
+    },
+    {
+      "id": "sticker-5daef88b",
+      "src": "media/sticker/20260912-170533.516-6.gif",
+      "x": 0.7347715519184564,
+      "y": 2.818949530599326,
+      "width": 0.2,
+      "z": 31,
+      "intrinsicWidth": 488,
+      "intrinsicHeight": 510
+    },
+    {
+      "id": "sticker-a798d585",
+      "src": "media/sticker/20260912-170533.516-4-export.gif",
+      "x": 0.6425621637907387,
+      "y": 5.006516665677294,
+      "width": 0.2,
+      "z": 33,
+      "intrinsicWidth": 629,
+      "intrinsicHeight": 354
+    },
+    {
+      "id": "sticker-98802784",
+      "src": "media/sticker/0f01.gif",
+      "x": 0.1220120274974093,
+      "y": 5.1696735202606705,
+      "width": 0.2,
+      "z": 34,
+      "intrinsicWidth": 317,
+      "intrinsicHeight": 332
+    },
+    {
+      "id": "sticker-a60c3f69",
+      "src": "media/sticker/sticker-05dc9156.gif",
+      "x": 0.3840604586161005,
+      "y": 3.7297426667594036,
+      "width": 0.2,
+      "z": 35,
+      "intrinsicWidth": 222,
+      "intrinsicHeight": 195
+    },
+    {
+      "id": "sticker-c78a4574",
+      "src": "media/sticker/sticker-1dde4d76.gif",
+      "x": 0.3013083350053844,
+      "y": 6.637275289380707,
+      "width": 0.2,
+      "z": 36,
+      "intrinsicWidth": 791,
+      "intrinsicHeight": 444
+    },
+    {
+      "id": "sticker-c91a1250",
+      "src": "media/sticker/sticker-69ad3d2f.gif",
+      "x": 0.12871117164006635,
+      "y": 2.069364784429682,
+      "width": 0.2,
+      "z": 37,
+      "intrinsicWidth": 435,
+      "intrinsicHeight": 335
+    },
+    {
+      "id": "sticker-269fb14d",
+      "src": "media/sticker/sticker-e4d18197.gif",
+      "x": 0.4601134380841596,
+      "y": 5.826157685595639,
+      "width": 0.2,
+      "z": 38,
+      "intrinsicWidth": 357,
+      "intrinsicHeight": 509
+    },
+    {
+      "id": "sticker-5888a7ed",
+      "src": "media/sticker/0059.gif",
+      "x": 0.031378570675694786,
+      "y": 6.597852707571895,
+      "width": 0.2,
+      "z": 39,
+      "intrinsicWidth": 762,
+      "intrinsicHeight": 542
+    },
+    {
+      "id": "sticker-957ad4b8",
+      "src": "media/sticker/c01.gif",
+      "x": 0.5523228758178236,
+      "y": 4.053466988005883,
+      "width": 0.2,
+      "z": 40,
+      "intrinsicWidth": 419,
+      "intrinsicHeight": 420
+    },
+    {
+      "id": "sticker-2bacdbde",
+      "src": "media/sticker/sticker-84ed2ed3.gif",
+      "x": 0.08536473188660706,
+      "y": 4.049915858428805,
+      "width": 0.2,
+      "z": 41,
+      "intrinsicWidth": 285,
+      "intrinsicHeight": 325
+    },
+    {
+      "id": "sticker-dd484a52",
+      "src": "media/sticker/0020.gif",
+      "x": 0.08418258250302238,
+      "y": 2.718934035206804,
+      "width": 0.2,
+      "z": 42,
+      "intrinsicWidth": 356,
+      "intrinsicHeight": 578
     }
   ]
 }
